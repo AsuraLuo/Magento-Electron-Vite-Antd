@@ -1,5 +1,6 @@
-const path = require('path')
 const { app, BrowserWindow } = require('electron')
+const path = require('path')
+const isDev = require('electron-is-dev')
 
 class AppWindow extends BrowserWindow {
   constructor(config, urlLocation) {
@@ -8,8 +9,8 @@ class AppWindow extends BrowserWindow {
       height: 600,
       webPreferences: {
         contextIsolation: false,
-        nodeIntegration: true,
         enableRemoteModule: true,
+        nodeIntegration: true,
         nodeIntegrationInWorker: true
       },
       show: false,
@@ -19,7 +20,9 @@ class AppWindow extends BrowserWindow {
     const finalConfig = { ...basicConfig, ...config }
     super(finalConfig)
 
-    this.webContents.openDevTools()
+    this.webContents.openDevTools({
+      mode: 'bottom'
+    })
     this.loadURL(urlLocation)
     this.once('ready-to-show', () => {
       this.show()
@@ -32,8 +35,9 @@ app.on('ready', () => {
     width: 1280,
     height: 768
   }
-  // const urlLocation = 'http://localhost:3000/'
-  const urlLocation = path.resolve(__dirname, '../dist/index.html')
+  const urlLocation = isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, './index.html')}`
   
   mainWindow = new AppWindow(mainWindowConfig, urlLocation)
   mainWindow.on('closed', () => {
