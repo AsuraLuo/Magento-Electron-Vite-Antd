@@ -2,15 +2,21 @@
   "name": "caesar-electron-vite-antd",
   "private": true,
   "version": "0.0.0",
-  "main": "main.js",
+  "main": "main/index.js",
   "author": {
     "email": "454451758@qq.com",
     "name": "Magento Electron"
   },
   "scripts": {
-    "dev": "concurrently vite \"electron .\"",
+    "dev": "concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "yarn build:electron && electron .",
     "build": "tsc && vite build && electron-builder",
-    "preview": "vite preview"
+    "build:vite": "tsc && vite build",
+    "build:electron": "tsc -p electron",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
   },
   "dependencies": {
     "react": "^18.2.0",
