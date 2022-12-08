@@ -1,0 +1,12 @@
+{
+  "appId": "com.electron.app",
+  "directories": {
+    "output": "dist"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "shortcutName": "Electron App"
+  }
+}

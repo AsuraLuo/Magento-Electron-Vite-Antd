@@ -1,5 +1,5 @@
 import { join } from 'path'
-import { BrowserWindow, app, ipcMain, IpcMainEvent } from 'electron'
+import { BrowserWindow, IpcMainEvent, app, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
 
 // Create the browser window.
@@ -11,16 +11,16 @@ const createWindow = () => {
     show: true,
     resizable: true,
     fullscreenable: true,
-    webPreferences: {}
+    webPreferences: {
+      preload: join(app.getAppPath(), 'build/main/preload.js')
+    }
   })
-
-  const url = isDev ? `http://localhost:3000` : join(__dirname, '../build/index.html')
 
   // and load the index.html of the app.
   if (isDev) {
-    window?.loadURL(url)
+    window.loadURL(`http://localhost:3000`)
   } else {
-    window?.loadFile(url)
+    window.loadFile(join(app.getAppPath(), 'build', 'index.html'))
   }
 
   // Open the DevTools.
@@ -47,6 +47,16 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
+
+  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  //   callback({
+  //     responseHeaders: {
+  //       ...details.responseHeaders,
+  //       'Content-Security-Policy': ['default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'']
+  //     }
+  //   })
+  // })
+
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
