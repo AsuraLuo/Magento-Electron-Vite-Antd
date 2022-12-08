@@ -1,5 +1,5 @@
 import { join } from 'path'
-import { BrowserWindow, IpcMainEvent, app, ipcMain } from 'electron'
+import { BrowserWindow, IpcMainEvent, app, ipcMain, protocol } from 'electron'
 import isDev from 'electron-is-dev'
 
 // Create the browser window.
@@ -12,15 +12,16 @@ const createWindow = () => {
     resizable: true,
     fullscreenable: true,
     webPreferences: {
-      preload: join(app.getAppPath(), 'build/main/preload.js')
+      preload: join(app.getAppPath(), 'main/preload.js')
     }
   })
 
   // and load the index.html of the app.
+  // process.env.npm_lifecycle_event
   if (isDev) {
     window.loadURL(`http://localhost:3000`)
   } else {
-    window.loadFile(join(app.getAppPath(), 'build', 'index.html'))
+    window.loadFile(join(app.getAppPath(), 'build/index.html'))
   }
 
   // Open the DevTools.
@@ -48,15 +49,11 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow()
 
-  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-  //   callback({
-  //     responseHeaders: {
-  //       ...details.responseHeaders,
-  //       'Content-Security-Policy': ['default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'']
-  //     }
-  //   })
-  // })
-
+  protocol.registerFileProtocol('files', (request, callback) => {
+    const url = request?.url?.substr(8)
+    const path = decodeURI(url.split('?')[0])
+    callback({ path })
+  })
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

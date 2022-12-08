@@ -2,7 +2,7 @@
   "name": "caesar-electron-vite-antd",
   "private": true,
   "version": "0.0.0",
-  "main": "build/main/index.js",
+  "main": "main/index.js",
   "author": {
     "email": "454451758@qq.com",
     "name": "Magento Electron"
@@ -14,6 +14,7 @@
     "build": "yarn build:vite && yarn build:electron",
     "build:vite": "tsc && vite build",
     "build:electron": "tsc -p electron",
+    "clean": "rm -rf ./build && rm -rf ./dist",
     "release": "yarn build && electron-builder --dir",
     "release:win": "electron-builder --win",
     "release:mac": "electron-builder --mac",
