@@ -22,24 +22,21 @@ const createWindow = () => {
     resizable: true,
     fullscreenable: true,
     webPreferences: {
-      preload: join(app.getAppPath(), 'main/preload.js')
-      // nodeIntegration: true,
-      // contextIsolation: false
+      preload: join(app.getAppPath(), 'dist/preload/index.js')
     }
   })
 
   // and load the index.html of the app.
-  // process.env.npm_lifecycle_event
   if (isDev) {
     window.loadURL(`http://localhost:3000`)
+
+    // Open the DevTools.
+    window.webContents.openDevTools({
+      mode: 'bottom'
+    })
   } else {
     window.loadFile(join(app.getAppPath(), 'build/index.html'))
   }
-
-  // Open the DevTools.
-  window.webContents.openDevTools({
-    mode: 'bottom'
-  })
 
   // Make all links open with the browser, not with the application
   window.webContents.setWindowOpenHandler(({ url }) => {
@@ -110,8 +107,6 @@ ipcMain.handle('open-win', (event, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload: join(app.getAppPath(), 'main/preload.js')
-      // nodeIntegration: true,
-      // contextIsolation: false
     }
   })
 
