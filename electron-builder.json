@@ -1,7 +1,9 @@
 {
-  "appId": "com.electron.app",
-  "productName": "Electron App",
+  "appId": "com.magento.electron",
+  "productName": "Magento Electron",
+  "copyright": "Copyright © 2022 Magento Electron",
   "directories": {
+    "buildResources": "assets",
     "output": "dist"
   },
   "files": [
@@ -12,6 +14,6 @@
     "oneClick": false,
     "perMachine": false,
     "allowToChangeInstallationDirectory": true,
-    "shortcutName": "Electron App"
+    "shortcutName": "Magento Electron"
   }
 }

@@ -6,9 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
 const electron_1 = require("electron");
 const electron_is_dev_1 = __importDefault(require("electron-is-dev"));
+// Set application name for Windows 10+ notifications
+if (process.platform === 'win32')
+    electron_1.app.setAppUserModelId(electron_1.app.getName());
+if (!electron_1.app.requestSingleInstanceLock()) {
+    electron_1.app.quit();
+    process.exit(0);
+}
+let window;
 // Create the browser window.
 const createWindow = () => {
-    const window = new electron_1.BrowserWindow({
+    window = new electron_1.BrowserWindow({
         width: 1280,
         height: 768,
         frame: true,
@@ -16,7 +24,9 @@ const createWindow = () => {
         resizable: true,
         fullscreenable: true,
         webPreferences: {
-            preload: (0, path_1.join)(electron_1.app.getAppPath(), 'main/preload.js')
+            preload: (0, path_1.join)(electron_1.app.getAppPath(), 'main/preload.js'),
+            // nodeIntegration: true,
+            // contextIsolation: false
         }
     });
     // and load the index.html of the app.
@@ -30,6 +40,12 @@ const createWindow = () => {
     // Open the DevTools.
     window.webContents.openDevTools({
         mode: 'bottom'
+    });
+    // Make all links open with the browser, not with the application
+    window.webContents.setWindowOpenHandler(({ url }) => {
+        if (url.startsWith('https:'))
+            electron_1.shell.openExternal(url);
+        return { action: 'deny' };
     });
     // For AppBar
     electron_1.ipcMain.on('minimize', () => {
@@ -66,10 +82,37 @@ electron_1.app.on('window-all-closed', () => {
     if (process.platform !== 'darwin')
         electron_1.app.quit();
 });
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-// listen the channel `message` and resend the received message to the renderer process
-electron_1.ipcMain.on('message', (event, message) => {
-    console.log(message);
-    setTimeout(() => event.sender.send('message', 'hi from electron'), 500);
+electron_1.app.on('second-instance', () => {
+    if (window) {
+        // Focus on the main window if the user tried to open another
+        if (window.isMinimized())
+            window.restore();
+        window.focus();
+    }
+});
+electron_1.app.on('activate', () => {
+    const allWindows = electron_1.BrowserWindow.getAllWindows();
+    if (allWindows.length) {
+        allWindows[0].focus();
+    }
+    else {
+        createWindow();
+    }
+});
+// new window example arg: new windows url
+electron_1.ipcMain.handle('open-win', (event, arg) => {
+    console.log(event);
+    const childWindow = new electron_1.BrowserWindow({
+        webPreferences: {
+            preload: (0, path_1.join)(electron_1.app.getAppPath(), 'main/preload.js')
+            // nodeIntegration: true,
+            // contextIsolation: false
+        }
+    });
+    if (electron_is_dev_1.default) {
+        childWindow.loadURL(`http://localhost:3000#${arg}`);
+    }
+    else {
+        childWindow.loadFile((0, path_1.join)(electron_1.app.getAppPath(), 'build/index.html'), { hash: arg });
+    }
 });

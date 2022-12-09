@@ -1,10 +1,20 @@
 import { join } from 'path'
-import { BrowserWindow, IpcMainEvent, app, ipcMain, protocol } from 'electron'
+import { BrowserWindow, app, ipcMain, protocol, shell } from 'electron'
 import isDev from 'electron-is-dev'
+
+// Set application name for Windows 10+ notifications
+if (process.platform === 'win32') app.setAppUserModelId(app.getName())
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+  process.exit(0)
+}
+
+let window: BrowserWindow
 
 // Create the browser window.
 const createWindow = () => {
-  const window = new BrowserWindow({
+  window = new BrowserWindow({
     width: 1280,
     height: 768,
     frame: true,
@@ -13,6 +23,8 @@ const createWindow = () => {
     fullscreenable: true,
     webPreferences: {
       preload: join(app.getAppPath(), 'main/preload.js')
+      // nodeIntegration: true,
+      // contextIsolation: false
     }
   })
 
@@ -27,6 +39,12 @@ const createWindow = () => {
   // Open the DevTools.
   window.webContents.openDevTools({
     mode: 'bottom'
+  })
+
+  // Make all links open with the browser, not with the application
+  window.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('https:')) shell.openExternal(url)
+    return { action: 'deny' }
   })
 
   // For AppBar
@@ -69,11 +87,37 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+app.on('second-instance', () => {
+  if (window) {
+    // Focus on the main window if the user tried to open another
+    if (window.isMinimized()) window.restore()
+    window.focus()
+  }
+})
 
-// listen the channel `message` and resend the received message to the renderer process
-ipcMain.on('message', (event: IpcMainEvent, message: any) => {
-  console.log(message)
-  setTimeout(() => event.sender.send('message', 'hi from electron'), 500)
+app.on('activate', () => {
+  const allWindows = BrowserWindow.getAllWindows()
+  if (allWindows.length) {
+    allWindows[0].focus()
+  } else {
+    createWindow()
+  }
+})
+
+// new window example arg: new windows url
+ipcMain.handle('open-win', (event, arg) => {
+  console.log(event)
+  const childWindow = new BrowserWindow({
+    webPreferences: {
+      preload: join(app.getAppPath(), 'main/preload.js')
+      // nodeIntegration: true,
+      // contextIsolation: false
+    }
+  })
+
+  if (isDev) {
+    childWindow.loadURL(`http://localhost:3000#${arg}`)
+  } else {
+    childWindow.loadFile(join(app.getAppPath(), 'build/index.html'), { hash: arg })
+  }
 })
