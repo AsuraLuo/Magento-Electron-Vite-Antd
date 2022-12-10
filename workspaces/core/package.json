@@ -1,0 +1,10 @@
+{
+	"name": "@eletron/core",
+	"author": "Apax",
+	"copyright": "All Rights Reserved",
+	"version": "0.0.1",
+	"main": "index.ts",
+	"dependencies": {},
+	"sideEffects": false
+}
+  

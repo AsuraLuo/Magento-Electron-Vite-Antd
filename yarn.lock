@@ -348,6 +348,11 @@
     lodash "^4.17.15"
     tmp-promise "^3.0.2"
 
+"@remix-run/router@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmmirror.com/@remix-run/router/-/router-1.0.5.tgz#d5c65626add4c3c185a89aa5bd38b1e42daec075"
+  integrity sha512-my0Mycd+jruq/1lQuO5LBB6WTlL/e8DTCYWp44DfMTDcXz8DcTlgF0ISaLsGewt+ctHN+yA8xMq3q/N7uWJPug==
+
 "@sindresorhus/is@^4.0.0":
   version "4.6.0"
   resolved "https://registry.npmmirror.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
@@ -396,6 +401,11 @@
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
+
+"@types/history@^4.7.11":
+  version "4.7.11"
+  resolved "https://registry.npmmirror.com/@types/history/-/history-4.7.11.tgz#56588b17ae8f50c53983a524fc3cc47437969d64"
+  integrity sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==
 
 "@types/http-cache-semantics@*":
   version "4.0.1"
@@ -447,6 +457,23 @@
   resolved "https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.9.tgz#ffee5e4bfc2a2f8774b15496474f8e7fe8d0b504"
   integrity sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==
   dependencies:
+    "@types/react" "*"
+
+"@types/react-router-dom@^5.3.3":
+  version "5.3.3"
+  resolved "https://registry.npmmirror.com/@types/react-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
+  integrity sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==
+  dependencies:
+    "@types/history" "^4.7.11"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "5.1.19"
+  resolved "https://registry.npmmirror.com/@types/react-router/-/react-router-5.1.19.tgz#9b404246fba7f91474d7008a3d48c17b6e075ad6"
+  integrity sha512-Fv/5kb2STAEMT3wHzdKQK2z8xKq38EDIGVrutYLmQVVLe+4orDFquU52hQrULnEHinMKv9FSA6lf9+uNT1ITtA==
+  dependencies:
+    "@types/history" "^4.7.11"
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^18.0.24":
@@ -1903,6 +1930,21 @@ react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.npmmirror.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
+
+react-router-dom@^6.4.5:
+  version "6.4.5"
+  resolved "https://registry.npmmirror.com/react-router-dom/-/react-router-dom-6.4.5.tgz#4fdb12efef4f3848c693a76afbeaed1f6ca02047"
+  integrity sha512-a7HsgikBR0wNfroBHcZUCd9+mLRqZS8R5U1Z1mzLWxFXEkUT3vR1XXmSIVoVpxVX8Bar0nQYYYc9Yipq8dWwAA==
+  dependencies:
+    "@remix-run/router" "1.0.5"
+    react-router "6.4.5"
+
+react-router@6.4.5:
+  version "6.4.5"
+  resolved "https://registry.npmmirror.com/react-router/-/react-router-6.4.5.tgz#73f382af2c8b9a86d74e761a7c5fc3ce7cb0024d"
+  integrity sha512-1RQJ8bM70YEumHIlNUYc6mFfUDoWa5EgPDenK/fq0bxD8DYpQUi/S6Zoft+9DBrh2xmtg92N5HMAJgGWDhKJ5Q==
+  dependencies:
+    "@remix-run/router" "1.0.5"
 
 react@^18.2.0:
   version "18.2.0"
