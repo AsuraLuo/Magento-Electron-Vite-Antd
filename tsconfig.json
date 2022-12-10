@@ -14,8 +14,18 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["renderer/components/*"],
+      "@config/*": ["renderer/config/*"],
+      "@graphql/*": ["renderer/graphql/*"],
+      "@hooks/*": ["renderer/hooks/*"],
+      "@eletron/*": ["renderer/workspace/*"],
+      "@store/*": ["renderer/store/*"]
+    }
   },
   "include": ["renderer"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
