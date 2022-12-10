@@ -7,6 +7,7 @@ export default ({ mode }: ConfigEnv) => {
 
   return defineConfig({
     base: './',
+    envPrefix: 'REACT_',
     build: {
       outDir: 'build',
       emptyOutDir: true

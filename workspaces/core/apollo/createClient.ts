@@ -19,8 +19,11 @@ const customFetchToShrinkQuery = (uri: string, options: any) => {
 }
 
 export const createClient = () => {
-  const httpLink = new HttpLink({
-    uri: `${window.location.origin}api/graphql`,
+  const isProd: boolean = import.meta.env.PROD
+  const apiUri: string = import.meta.env.REACT_APP_GRAPHQL_URL
+  
+  const httpLink: HttpLink = new HttpLink({
+    uri: `${isProd ? apiUri : window.location.origin}/graphql`,
     credentials: 'same-origin',
     fetch: customFetchToShrinkQuery,
     useGETForQueries: true

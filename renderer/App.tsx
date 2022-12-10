@@ -2,8 +2,9 @@ import { ApolloProvider } from '@apollo/client'
 import { Provider as ReduxProvider } from 'react-redux'
 
 import { createClient, createStore } from '@eletron/core'
+import { reducer } from '@store/create'
 
-import { reducer } from '@store/index'
+import AppShell from '@components/AppShell'
 
 const App = () => {
   const client = createClient()
@@ -12,7 +13,9 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <ReduxProvider store={store}>
-        <div>App</div>
+        <AppShell>
+          <div>App</div>
+        </AppShell>
       </ReduxProvider>
     </ApolloProvider>
   )

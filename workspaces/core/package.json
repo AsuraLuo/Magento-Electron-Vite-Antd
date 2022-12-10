@@ -9,8 +9,8 @@
 		"graphql": "^16.6.0",
 		"redux-logger": "^3.0.6"
 	},
-	"sideEffects": false,
 	"devDependencies": {
 		"@types/redux-logger": "^3.0.9"
-	}
+	},
+  "sideEffects": false
 }
