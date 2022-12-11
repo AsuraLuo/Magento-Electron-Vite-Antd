@@ -2,6 +2,8 @@ import { FC, ReactNode } from 'react'
 
 import { useAppShell } from '@hooks/AppShell'
 
+import Header from '@components/Header'
+
 interface AppShellProps {
   children?: ReactNode
 }
@@ -9,12 +11,13 @@ interface AppShellProps {
 const AppShell: FC<AppShellProps> = ({ children }) => {
   const { isRender, storeConfig } = useAppShell()
 
-  return (
+  return isRender ? (
     <>
-      {isRender && <p>{storeConfig.copyright}</p>}
+      <Header />
+      <p>{storeConfig.copyright}</p>
       {children}
     </>
-  )
+  ) : null
 }
 
 export default AppShell

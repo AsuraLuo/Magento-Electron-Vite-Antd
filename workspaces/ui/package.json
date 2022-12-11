@@ -1,0 +1,11 @@
+{
+	"name": "@eletron/ui",
+	"author": "Apax",
+	"copyright": "All Rights Reserved",
+	"version": "0.0.1",
+	"main": "index.ts",
+	"dependencies": {
+		"antd": "^5.0.5"
+	},
+	"sideEffects": false
+}
