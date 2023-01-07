@@ -1,11 +1,18 @@
 {
   "name": "caesar-electron-vite-antd",
+  "license": "",
+  "copyright": "All Rights Reserved",
+  "version": "0.0.1",
   "private": true,
-  "version": "0.1.0",
-  "main": "dist/main/index.js",
   "author": {
     "email": "454451758@qq.com",
     "name": "Magento Electron"
+  },
+  "main": "dist/main/index.js",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
   },
   "workspaces": [
     "workspaces/*"
@@ -18,6 +25,7 @@
     "build:vite": "tsc && vite build",
     "build:electron": "tsc -p electron",
     "clean": "rm -rf ./build && rm -rf ./release",
+    "prepare": "husky install",
     "release": "yarn build && electron-builder --dir",
     "release:win": "electron-builder --win",
     "release:mac": "electron-builder --mac",
@@ -34,14 +42,30 @@
     "react-router-dom": "^6.4.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.0",
+    "@commitlint/config-conventional": "^17.4.0",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@types/react-redux": "^7.1.24",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
     "@vitejs/plugin-react": "^2.2.0",
     "concurrently": "^7.6.0",
+    "cz-customizable": "^7.0.0",
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
   }
