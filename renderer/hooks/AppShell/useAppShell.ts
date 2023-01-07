@@ -21,7 +21,7 @@ export const useAppShell = () => {
     }
 
     fetchStoreConfig()
-  }, [])
+  }, [getStoreConfig])
 
   return {
     isRender,
