@@ -2,38 +2,38 @@ import {
   ApolloClient,
   ApolloLink,
   InMemoryCache,
-  HttpLink
-} from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
-import { parseCookies } from 'nookies'
+  HttpLink,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { parseCookies } from "nookies";
 
-import { shrinkQuery } from './shrinkQuery'
-import { typePolicies } from './policies'
+import { shrinkQuery } from "./shrinkQuery";
+import { typePolicies } from "./policies";
 
 const customFetchToShrinkQuery = (uri: string, options: any) => {
-  let url = uri
-  if (options.method === 'GET') {
-    url = shrinkQuery(uri)
+  let url = uri;
+  if (options.method === "GET") {
+    url = shrinkQuery(uri);
   }
-  return fetch(url, options)
-}
+  return fetch(url, options);
+};
 
 export const createClient = () => {
-  const isProd: boolean = import.meta.env.PROD
-  const apiUri: string = import.meta.env.REACT_APP_GRAPHQL_URL
-  
+  const isProd: boolean = import.meta.env.PROD;
+  const apiUri: string = import.meta.env.REACT_APP_GRAPHQL_URL;
+
   const httpLink: HttpLink = new HttpLink({
     uri: `${isProd ? apiUri : window.location.origin}/graphql`,
-    credentials: 'same-origin',
+    credentials: "same-origin",
     fetch: customFetchToShrinkQuery,
-    useGETForQueries: true
-  })
+    useGETForQueries: true,
+  });
 
   const middlewareLink = new ApolloLink((operation, forward) => {
-    const exsistCookies: any = parseCookies()
-    const storeCode: string =  ''
-    const currencyCode: string = ''
-    const context = operation.getContext()
+    const exsistCookies: any = parseCookies();
+    const storeCode: string = "";
+    const currencyCode: string = "";
+    const context = operation.getContext();
 
     operation.setContext({
       headers: {
@@ -41,42 +41,42 @@ export const createClient = () => {
           ? `Bearer ${exsistCookies.access_token}`
           : null,
         Store: exsistCookies?.store_code ?? storeCode,
-        'Content-Currency': exsistCookies?.currency_code ?? currencyCode,
-        ...context?.headers
-      }
-    })
+        "Content-Currency": exsistCookies?.currency_code ?? currencyCode,
+        ...context?.headers,
+      },
+    });
 
-    return forward(operation)
-  })
+    return forward(operation);
+  });
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }, index) => {
-        graphQLErrors[index].message = message.replace('GraphQL error: ', '')
+        graphQLErrors[index].message = message.replace("GraphQL error: ", "");
 
-        console.error(graphQLErrors[index].message)
-      })
+        console.error(graphQLErrors[index].message);
+      });
     }
 
     if (networkError) {
-      console.error(`[Network error]: ${networkError}`)
+      console.error(`[Network error]: ${networkError}`);
     }
-  })
+  });
 
-  const apolloLink = middlewareLink.concat(httpLink)
+  const apolloLink = middlewareLink.concat(httpLink);
 
   return new ApolloClient({
     link: errorLink.concat(apolloLink),
     cache: new InMemoryCache({
       addTypename: false,
-      typePolicies
+      typePolicies,
     }).restore({}),
     connectToDevTools: true,
     ssrMode: false,
     defaultOptions: {
       query: {
-        fetchPolicy: 'cache-first'
-      }
-    }
-  })
-}
+        fetchPolicy: "cache-first",
+      },
+    },
+  });
+};

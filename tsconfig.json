@@ -21,14 +21,11 @@
       "@config/*": ["renderer/config/*"],
       "@graphql/*": ["renderer/graphql/*"],
       "@hooks/*": ["renderer/hooks/*"],
-      "@eletron/*": ["renderer/workspace/*"],
+      "@electron/*": ["renderer/workspace/*"],
       "@store/*": ["renderer/store/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

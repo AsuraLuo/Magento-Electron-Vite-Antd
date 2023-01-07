@@ -1,15 +1,15 @@
-import { ApolloProvider } from '@apollo/client'
-import { Provider as ReduxProvider } from 'react-redux'
+import { ApolloProvider } from "@apollo/client";
+import { Provider as ReduxProvider } from "react-redux";
 
-import { createClient, createStore } from '@eletron/core'
-import { ConfigProvider } from '@eletron/ui'
-import { reducer } from '@store/create'
+import { createClient, createStore } from "@electron/core";
+import { ConfigProvider } from "@electron/ui";
+import { reducer } from "@store/create";
 
-import AppShell from '@components/AppShell'
+import AppShell from "@components/AppShell";
 
 const App = () => {
-  const client = createClient()
-  const store = createStore(reducer)
+  const client = createClient();
+  const store = createStore(reducer);
 
   return (
     <ApolloProvider client={client}>
@@ -18,8 +18,8 @@ const App = () => {
           prefixCls="apax"
           theme={{
             token: {
-              colorPrimary: '#00b96b'
-            }
+              colorPrimary: "#00b96b",
+            },
           }}
         >
           <AppShell>
@@ -28,7 +28,7 @@ const App = () => {
         </ConfigProvider>
       </ReduxProvider>
     </ApolloProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
