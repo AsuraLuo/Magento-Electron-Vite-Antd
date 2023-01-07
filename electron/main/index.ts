@@ -103,7 +103,6 @@ app.on('activate', () => {
 
 // new window example arg: new windows url
 ipcMain.handle('open-win', (event, arg) => {
-  console.log(event)
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload: join(app.getAppPath(), 'main/preload.js')
@@ -113,6 +112,8 @@ ipcMain.handle('open-win', (event, arg) => {
   if (isDev) {
     childWindow.loadURL(`http://localhost:3000#${arg}`)
   } else {
-    childWindow.loadFile(join(app.getAppPath(), 'build/index.html'), { hash: arg })
+    childWindow.loadFile(join(app.getAppPath(), 'build/index.html'), {
+      hash: arg
+    })
   }
 })

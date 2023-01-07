@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { useAwaitQuery } from '@eletron/hooks'
+import { useAwaitQuery } from '@electron/hooks'
 import { GET_STORE_CONFIG } from '@graphql/queries/getStoreConfig'
 
 export const useAppShell = () => {
@@ -21,7 +21,7 @@ export const useAppShell = () => {
     }
 
     fetchStoreConfig()
-  }, [])
+  }, [getStoreConfig])
 
   return {
     isRender,

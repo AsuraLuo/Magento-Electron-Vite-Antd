@@ -12,9 +12,7 @@ export default ({ mode }: ConfigEnv) => {
       outDir: 'build',
       emptyOutDir: true
     },
-    plugins: [
-      react()
-    ],
+    plugins: [react()],
     resolve: {
       alias: {
         '@components': path.resolve(__dirname, './renderer/components'),
@@ -35,13 +33,13 @@ export default ({ mode }: ConfigEnv) => {
           target: process.env.REACT_APP_GRAPHQL_URL,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/graphql/, 'graphql')
+          rewrite: (url: string) => url.replace(/^\/graphql/, 'graphql')
         },
         '/api': {
           target: process.env.REACT_APP_GRAPHQL_URL,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, 'api')
+          rewrite: (url: string) => url.replace(/^\/api/, 'api')
         }
       }
     }
