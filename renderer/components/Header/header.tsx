@@ -1,9 +1,11 @@
-import { Button } from '@eletron/ui'
+import { Button, Container } from '@electron/ui'
 
 const Header = () => {
   return (
     <header>
-      <Button type="primary">Header</Button>
+      <Container>
+        <Button type="primary">Header</Button>
+      </Container>
     </header>
   )
 }
