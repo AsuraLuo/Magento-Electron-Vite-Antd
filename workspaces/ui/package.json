@@ -5,7 +5,8 @@
   "version": "0.0.1",
   "main": "index.ts",
   "dependencies": {
-    "antd": "^5.1.2"
+    "antd": "^5.1.2",
+    "react-intl": "^6.2.5"
   },
   "sideEffects": false
 }
