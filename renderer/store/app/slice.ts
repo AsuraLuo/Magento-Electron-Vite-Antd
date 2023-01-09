@@ -5,11 +5,14 @@ import { fetchStoreConfig } from './actions'
 export const slice: Slice = createSlice({
   name: 'app',
   initialState: {
+    currency: null,
     storeConfig: null
   },
   reducers: {
     setAppConfig: (state: any, { payload }) => {
-      state.storeConfig = payload
+      const { currency, storeConfig } = payload
+      state.currency = currency
+      state.storeConfig = storeConfig
     }
   },
   extraReducers: (builder) => {

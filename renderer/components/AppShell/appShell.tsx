@@ -1,5 +1,7 @@
 import { FC, ReactNode } from 'react'
 
+import { PwaContextProvider } from '@electron/provider'
+import { ConfigProvider } from '@electron/ui'
 import { useAppShell } from '@hooks/AppShell'
 
 import Header from '@components/Header'
@@ -13,9 +15,20 @@ const AppShell: FC<AppShellProps> = ({ children }) => {
 
   return isRender ? (
     <>
-      <Header />
-      <p>{storeConfig.copyright}</p>
-      {children}
+      <PwaContextProvider>
+        <ConfigProvider
+          prefixCls="apax"
+          theme={{
+            token: {
+              colorPrimary: '#00b96b'
+            }
+          }}
+        >
+          <Header />
+          <p>{storeConfig.copyright}</p>
+          {children}
+        </ConfigProvider>
+      </PwaContextProvider>
     </>
   ) : null
 }

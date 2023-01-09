@@ -2,7 +2,6 @@ import { ApolloProvider } from '@apollo/client'
 import { Provider as ReduxProvider } from 'react-redux'
 
 import { createClient, createStore } from '@electron/core'
-import { ConfigProvider } from '@electron/ui'
 import { reducer } from '@store/create'
 
 import AppShell from '@components/AppShell'
@@ -14,18 +13,9 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <ReduxProvider store={store}>
-        <ConfigProvider
-          prefixCls="apax"
-          theme={{
-            token: {
-              colorPrimary: '#00b96b'
-            }
-          }}
-        >
-          <AppShell>
-            <div>App</div>
-          </AppShell>
-        </ConfigProvider>
+        <AppShell>
+          <div>App</div>
+        </AppShell>
       </ReduxProvider>
     </ApolloProvider>
   )
