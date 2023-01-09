@@ -27,7 +27,7 @@ module.exports = {
         }
       }
     ],
-    'no-console': ['error', { allow: ['error', 'warn'] }],
+    'no-console': ['error', { allow: ['error', 'info', 'warn'] }],
     'no-case-declarations': 0,
     'no-restricted-exports': 0,
     'no-param-reassign': 0,

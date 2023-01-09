@@ -110,6 +110,7 @@ ipcMain.handle('open-win', (event, arg) => {
   })
 
   if (isDev) {
+    console.info(event)
     childWindow.loadURL(`http://localhost:3000#${arg}`)
   } else {
     childWindow.loadFile(join(app.getAppPath(), 'build/index.html'), {

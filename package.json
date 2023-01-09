@@ -18,24 +18,25 @@
     "workspaces/*"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "yarn build:electron && electron .",
-    "build": "yarn build:vite && yarn build:electron",
+    "build": "cross-env NODE_ENV=production yarn build:vite && yarn build:electron",
     "build:vite": "tsc && vite build",
     "build:electron": "tsc -p electron",
     "clean": "rm -rf ./build && rm -rf ./release",
     "prepare": "husky install",
     "release": "yarn build && electron-builder --dir",
-    "release:win": "electron-builder --win",
-    "release:mac": "electron-builder --mac",
-    "release:linux": "electron-builder --linux"
+    "release:win": "yarn build && electron-builder --win",
+    "release:mac": "yarn build && electron-builder --mac",
+    "release:linux": "yarn build && electron-builder --linux"
   },
   "dependencies": {
     "@apollo/client": "^3.7.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "clsx": "^1.2.1",
+    "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
     "nookies": "^2.5.2",
     "react": "^18.2.0",
