@@ -1,11 +1,9 @@
-import { Button, Container } from '@electron/ui'
+import Navigation from '@components/Navigation'
 
 const Header = () => {
   return (
     <header>
-      <Container>
-        <Button type="primary">Header</Button>
-      </Container>
+      <Navigation />
     </header>
   )
 }

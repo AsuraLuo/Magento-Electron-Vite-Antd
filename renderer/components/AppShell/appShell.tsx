@@ -1,17 +1,18 @@
 import { FC, ReactNode } from 'react'
 
 import { PwaContextProvider } from '@electron/provider'
-import { ConfigProvider } from '@electron/ui'
+import { ConfigProvider, Locale } from '@electron/ui'
 import { useAppShell } from '@hooks/AppShell'
 
 import Header from '@components/Header'
+import Footer from '@components/Footer'
 
 interface AppShellProps {
   children?: ReactNode
 }
 
 const AppShell: FC<AppShellProps> = ({ children }) => {
-  const { isRender, storeConfig } = useAppShell()
+  const { isRender } = useAppShell()
 
   return isRender ? (
     <>
@@ -24,9 +25,10 @@ const AppShell: FC<AppShellProps> = ({ children }) => {
             }
           }}
         >
+          <Locale />
           <Header />
-          <p>{storeConfig.copyright}</p>
           {children}
+          <Footer />
         </ConfigProvider>
       </PwaContextProvider>
     </>

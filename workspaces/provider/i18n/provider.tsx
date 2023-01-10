@@ -1,16 +1,24 @@
-import { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useEffect, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import { isEmpty } from 'lodash'
 
 import { cookie, toReactIntl } from '@electron/utils'
 import { WebsiteConf } from '@config/website.conf'
+import { actions as i18nActions } from '@store/i18n'
 
-const LocaleContextProvider = ({ appState, i18nState, ...props }: any) => {
-  const { locale } = appState.storeConfig
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const messages = i18nState.messages ?? {}
-  const language = toReactIntl(locale)
+const LocaleContextProvider = ({ ...props }) => {
+  const dispatch = useDispatch()
+  const storeConfig = useSelector((state: any) => state.app.storeConfig)
+  const messages = useSelector((state: any) => state.i18n.messages)
+
+  const locale = useMemo(() => {
+    return storeConfig?.locale ?? WebsiteConf.i18n.locale
+  }, [storeConfig])
+
+  const language = useMemo(() => {
+    return toReactIntl(locale)
+  }, [locale])
 
   const onIntlError = (error: any) => {
     if (messages) {
@@ -44,15 +52,12 @@ const LocaleContextProvider = ({ appState, i18nState, ...props }: any) => {
         )
 
         const data = await result.json()
-        // setLocale(key)
-        // setMessages({ ...data })
-        // dispatch(
-        //   i18nActions.setI18nConfig({
-        //     key,
-        //     messages: data
-        //   })
-        // )
-        console.info(data)
+        dispatch(
+          i18nActions.setI18nConfig({
+            key,
+            messages: data
+          })
+        )
         if (!cache) cookie.setItem('locale_code', key)
       } catch (error: any) {
         const Console = console
@@ -61,7 +66,7 @@ const LocaleContextProvider = ({ appState, i18nState, ...props }: any) => {
     }
 
     if (isEmpty(messages)) fetchLocale()
-  }, [messages])
+  }, [dispatch, messages])
 
   return (
     <IntlProvider
@@ -75,9 +80,4 @@ const LocaleContextProvider = ({ appState, i18nState, ...props }: any) => {
   )
 }
 
-const mapStateToProps = ({ app, i18n }: any) => ({
-  appState: app,
-  i18nState: i18n
-})
-
-export default connect(mapStateToProps)(LocaleContextProvider)
+export default LocaleContextProvider
